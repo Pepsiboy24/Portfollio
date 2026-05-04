@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EmailJS Debug</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <h1>EmailJS Debug Page</h1>
+    <button onclick="testEmailJS()">Test EmailJS</button>
+    <button onclick="testSendEmail()">Test Send Email</button>
+    <div id="output"></div>
+
+    <script>
+        function log(message) {
+            document.getElementById('output').innerHTML += '<p>' + message + '</p>';
+        }
+
+        function testEmailJS() {
+            log('Testing EmailJS availability...');
+            log('typeof emailjs: ' + typeof emailjs);
+            
+            if (typeof emailjs !== 'undefined') {
+                log('EmailJS is loaded!');
+                log('EmailJS object: ' + JSON.stringify(Object.keys(emailjs)));
+                
+                try {
+                    emailjs.init("D1AgqBb3NtR7hGEwQ");
+                    log('EmailJS initialized successfully!');
+                } catch (error) {
+                    log('EmailJS initialization failed: ' + error.message);
+                }
+            } else {
+                log('EmailJS is NOT loaded!');
+            }
+        }
+
+        function testSendEmail() {
+            log('Testing email send...');
+            
+            if (typeof emailjs === 'undefined') {
+                log('EmailJS not available!');
+                return;
+            }
+
+            const templateParams = {
+                from_name: 'Test User',
+                from_email: 'test@example.com',
+                message: 'This is a test message',
+                to_name: 'Your Name',
+                reply_to: 'test@example.com'
+            };
+
+            log('Sending with params: ' + JSON.stringify(templateParams));
+
+            emailjs.send('service_oltki0r', 'template_l7kxi8g', templateParams)
+                .then(function(response) {
+                    log('SUCCESS! Status: ' + response.status + ', Text: ' + response.text);
+                })
+                .catch(function(error) {
+                    log('FAILED! Error: ' + JSON.stringify(error));
+                });
+        }
+
+        // Auto-test on page load
+        window.onload = function() {
+            setTimeout(testEmailJS, 1000);
+        };
+    </script>
+</body>
+</html>
