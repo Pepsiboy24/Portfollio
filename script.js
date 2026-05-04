@@ -7,7 +7,7 @@ const projects = [
         image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=800", // Image of a world map/travel
         technologies: ["JavaScript", "HTML5", "CSS3", "REST API", "Particles.js"],
         category: "web",
-        liveUrl: "#",
+        liveUrl: "https://pepsiboy24.github.io/CountryApp/",
         githubUrl: "https://github.com/Pepsiboy24/CountryApp"
     },
     {
@@ -17,7 +17,7 @@ const projects = [
         image: "https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&q=80&w=800", // Image of gaming dice
         technologies: ["JavaScript", "HTML5", "CSS3"],
         category: "web",
-        liveUrl: "#",
+        liveUrl: "https://pepsiboy24.github.io/PigDOMGame/",
         githubUrl: "https://github.com/Pepsiboy24/PigDOMGame"
     },
     {
@@ -27,7 +27,7 @@ const projects = [
         image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800", // Image of financial accounting/calculator
         technologies: ["JavaScript", "HTML5", "CSS3", "UI/UX Design"],
         category: "web",
-        liveUrl: "#",
+        liveUrl: "https://pepsiboy24.github.io/BudgtyApp/",
         githubUrl: "https://github.com/Pepsiboy24/BudgtyApp"
     },
     {
@@ -47,7 +47,7 @@ const projects = [
         image: "https://images.unsplash.com/photo-1594631252845-29fc458631b6?auto=format&fit=crop&q=80&w=800", // Image of herbal tea
         technologies: ["HTML5", "CSS3", "Responsive Design"],
         category: "design",
-        liveUrl: "#",
+        liveUrl: "ultra-tea.com",
         githubUrl: "https://github.com/Pepsiboy24/ultra_tea"
     },
     {
@@ -57,7 +57,7 @@ const projects = [
         image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800", // Image representing AI/Machine Learning
         technologies: ["Python", "Machine Learning", "Docker", "MobileNet"],
         category: "ai",
-        liveUrl: "#",
+        liveUrl: "https://huggingface.co/spaces/pepsiboi/mobile_net",
         githubUrl: "https://github.com/Pepsiboy24/mobile_net"
     }
 ];
