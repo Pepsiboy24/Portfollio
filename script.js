@@ -498,17 +498,67 @@ function initializeParallax() {
     window.addEventListener('scroll', requestTick, { passive: true });
 }
 
-// Add hover effect to project cards (optimized)
+// Add hover effect to project cards (optimized for mobile)
 document.addEventListener('DOMContentLoaded', function() {
     const projectCards = document.querySelectorAll('.project-card');
+    
+    // Check if device is mobile
+    const isMobile = window.innerWidth <= 768;
+    
     projectCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.01)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
+        if (!isMobile) {
+            // Desktop hover effects
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.01)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        } else {
+            // Mobile touch interactions
+            card.addEventListener('touchstart', function(e) {
+                this.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            card.addEventListener('touchend', function(e) {
+                this.style.transform = 'scale(1)';
+            }, { passive: true });
+            
+            // Add tap-to-reveal functionality for project links
+            let touchStartTime;
+            let isTap = true;
+            
+            card.addEventListener('touchstart', function(e) {
+                touchStartTime = Date.now();
+                isTap = true;
+            }, { passive: true });
+            
+            card.addEventListener('touchmove', function(e) {
+                isTap = false;
+            }, { passive: true });
+            
+            card.addEventListener('touchend', function(e) {
+                if (isTap && Date.now() - touchStartTime < 200) {
+                    // This was a tap, not a scroll
+                    const overlay = this.querySelector('.project-overlay');
+                    const links = this.querySelector('.project-links');
+                    
+                    if (overlay && links) {
+                        overlay.style.opacity = '1';
+                        links.style.opacity = '1';
+                        links.style.transform = 'translateY(0)';
+                        
+                        // Hide overlay after 3 seconds
+                        setTimeout(() => {
+                            overlay.style.opacity = '';
+                            links.style.opacity = '';
+                            links.style.transform = '';
+                        }, 3000);
+                    }
+                }
+            }, { passive: true });
+        }
     });
 });
 
