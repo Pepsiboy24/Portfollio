@@ -347,6 +347,29 @@ section {
     }
 }
 
+/* Mobile touch interactions */
+@media (max-width: 768px) {
+    .project-card:hover {
+        transform: none;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .project-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    .project-overlay {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .project-links {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .project-image {
     height: 200px;
     background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
