@@ -47,7 +47,7 @@ const projects = [
         image: "https://images.unsplash.com/photo-1594631252845-29fc458631b6?auto=format&fit=crop&q=80&w=800", // Image of herbal tea
         technologies: ["HTML5", "CSS3", "Responsive Design"],
         category: "design",
-        liveUrl: "ultra-tea.com",
+        liveUrl: "https://ultra-tea.com",
         githubUrl: "https://github.com/Pepsiboy24/ultra_tea"
     },
     {
@@ -204,12 +204,12 @@ function createProjectCard(project, index) {
     return card;
 }
 
-// Animate project cards
+// Animate project cards - Fixed for smooth performance
 function animateProjectCards() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Add visible class for smoother animation
+                // Use CSS classes for better performance
                 entry.target.classList.add('animate-visible');
                 observer.unobserve(entry.target);
             }
@@ -389,30 +389,49 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Scroll effects
+// Scroll effects - Fixed for smooth performance
 function initializeScrollEffects() {
-    // Debounced navbar background on scroll
-    const handleNavbarScroll = debounce(function() {
+    // Use requestAnimationFrame for smooth navbar updates
+    let lastScrollY = 0;
+    let ticking = false;
+    
+    function updateNavbar() {
         const navbar = document.querySelector('.navbar');
         if (navbar) {
-            if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+            const currentScrollY = window.scrollY;
+            
+            // Only update if scroll position changed significantly
+            if (Math.abs(currentScrollY - lastScrollY) > 3) {
+                if (currentScrollY > 50) {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.98)';
+                    navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.5)';
+                } else {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.95)';
+                    navbar.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.5)';
+                }
+                lastScrollY = currentScrollY;
             }
         }
-    }, 10);
+        ticking = false;
+    }
 
-    window.addEventListener('scroll', handleNavbarScroll, { passive: true });
+    function requestNavbarUpdate() {
+        if (!ticking) {
+            requestAnimationFrame(updateNavbar);
+            ticking = true;
+        }
+    }
 
-    // Animate elements on scroll with better observer
+    // Use passive listener for better performance
+    window.addEventListener('scroll', requestNavbarUpdate, { passive: true });
+
+    // Optimized Intersection Observer with better settings
     const animateOnScroll = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Add visible class instead of manipulating animation
+                // Use CSS classes instead of direct style manipulation
                 entry.target.classList.add('animate-visible');
+                // Unobserve after animation to improve performance
                 animateOnScroll.unobserve(entry.target);
             }
         });
@@ -421,7 +440,7 @@ function initializeScrollEffects() {
         rootMargin: '0px 0px -50px 0px'
     });
 
-    // Observe skill cards
+    // Observe skill cards with staggered animation
     document.querySelectorAll('.skill-card').forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
         card.classList.add('animate-on-scroll');
@@ -449,17 +468,21 @@ function initializeTypingEffect() {
     }
 }
 
-// Parallax effect for hero section (subtle and optimized)
+// Parallax effect for hero section - Fixed for smooth performance
 function initializeParallax() {
     let ticking = false;
+    let lastScrollY = 0;
     
     function updateParallax() {
         const scrolled = window.pageYOffset;
         const hero = document.querySelector('.hero');
-        if (hero && scrolled < window.innerHeight) {
-            // Subtle parallax effect only when in viewport
-            const parallaxAmount = scrolled * 0.3;
+        
+        // Only update if scroll changed significantly and hero is visible
+        if (hero && Math.abs(scrolled - lastScrollY) > 2 && scrolled < window.innerHeight) {
+            // Very subtle parallax for better performance
+            const parallaxAmount = Math.min(scrolled * 0.2, 25); // Reduced intensity
             hero.style.transform = `translateY(${parallaxAmount}px)`;
+            lastScrollY = scrolled;
         }
         ticking = false;
     }
@@ -471,6 +494,7 @@ function initializeParallax() {
         }
     }
 
+    // Use passive listener and throttle for better performance
     window.addEventListener('scroll', requestTick, { passive: true });
 }
 
